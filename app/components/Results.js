@@ -2,6 +2,7 @@ import React from 'react';
 import { battle } from '../utils/api.js';
 import Card from './Card';
 import PropTypes from 'prop-types';
+import Loading from './Loading';
 
 ProfileList.propTypes = {
   profile: PropTypes.object.isRequired,
@@ -77,7 +78,7 @@ export default class Results extends React.Component {
     const { winner, loser, error, loading } = this.state;
 
     if (loading === true) {
-      return <p>LOADING</p>;
+      return <Loading text="Battling" />;
     }
 
     if (error) {
