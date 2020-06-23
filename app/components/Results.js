@@ -3,10 +3,8 @@ import { battle } from '../utils/api.js';
 import Card from './Card';
 import PropTypes from 'prop-types';
 import Loading from './Loading';
+import Tooltip from './Tooltip';
 
-ProfileList.propTypes = {
-  profile: PropTypes.object.isRequired,
-};
 function ProfileList({ profile }) {
   return (
     <ul className="card-list">
@@ -16,14 +14,18 @@ function ProfileList({ profile }) {
       </li>
       {profile.location && (
         <li>
-          <FaCompass color="rgb(144, 115, 255)" size={22} />
-          {profile.location}
+          <Tooltip text="User location">
+            <FaCompass color="rgb(144, 115, 255)" size={22} />
+            {profile.location}
+          </Tooltip>
         </li>
       )}
       {profile.company && (
         <li>
-          <FaBriefcase color="#795548" size={22} />
-          {profile.company}
+          <Tooltip text="User company">
+            <FaBriefcase color="#795548" size={22} />
+            {profile.company}
+          </Tooltip>
         </li>
       )}
       <li>
@@ -37,6 +39,10 @@ function ProfileList({ profile }) {
     </ul>
   );
 }
+
+ProfileList.propTypes = {
+  profile: PropTypes.object.isRequired,
+};
 
 import {
   FaCompass,
