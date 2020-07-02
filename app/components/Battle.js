@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import {
 	FaUserFriends,
 	FaFighterJet,
@@ -6,9 +6,8 @@ import {
 	FaTimesCircle,
 } from 'react-icons/fa';
 import PropTypes from 'prop-types';
-import Results from './Results.js';
-import { ThemeConsumer } from '../context/theme';
 import { Link } from 'react-router-dom';
+import { ThemeConsumer } from '../contexts/theme';
 
 function Instructions() {
 	return (
@@ -81,28 +80,21 @@ PlayerPreview.propTypes = {
 	label: PropTypes.string.isRequired,
 };
 
-class PlayerInput extends React.Component {
-	constructor(props) {
-		super(props);
+class PlayerInput extends Component {
+	state = {
+		username: '',
+	};
 
-		this.state = {
-			username: '',
-		};
-
-		this.handleSubmit = this.handleSubmit.bind(this);
-		this.handleChange = this.handleChange.bind(this);
-	}
-
-	handleSubmit(event) {
+	handleSubmit = (event) => {
 		event.preventDefault();
 		this.props.onSubmit(this.state.username);
-	}
+	};
 
-	handleChange(event) {
+	handleChange = (event) => {
 		this.setState({
 			username: event.target.value,
 		});
-	}
+	};
 
 	render() {
 		return (
@@ -142,30 +134,23 @@ PlayerInput.propTypes = {
 	label: PropTypes.string.isRequired,
 };
 
-export default class Battle extends React.Component {
-	constructor(props) {
-		super(props);
+export default class Battle extends Component {
+	state = {
+		playerOne: null,
+		playerTwo: null,
+	};
 
-		this.state = {
-			playerOne: null,
-			playerTwo: null,
-		};
-
-		this.handleSubmit = this.handleSubmit.bind(this);
-		this.handleReset = this.handleReset.bind(this);
-	}
-
-	handleSubmit(id, player) {
+	handleSubmit = (id, player) => {
 		this.setState({
 			[id]: player,
 		});
-	}
+	};
 
-	handleReset(id) {
+	handleReset = (id) => {
 		this.setState({
 			[id]: null,
 		});
-	}
+	};
 
 	render() {
 		const { playerOne, playerTwo } = this.state;

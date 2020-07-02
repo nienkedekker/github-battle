@@ -1,11 +1,20 @@
-import React from 'react';
+import React, { Component } from 'react';
+import queryString from 'query-string';
+import { Link } from 'react-router-dom';
+import {
+	FaCompass,
+	FaBriefcase,
+	FaUsers,
+	FaUserFriends,
+	FaCode,
+	FaUser,
+} from 'react-icons/fa';
 import { battle } from '../utils/api.js';
+
 import Card from './Card';
 import PropTypes from 'prop-types';
 import Loading from './Loading';
 import Tooltip from './Tooltip';
-import queryString from 'query-string';
-import { Link } from 'react-router-dom';
 
 function ProfileList({ profile }) {
 	return (
@@ -46,24 +55,14 @@ ProfileList.propTypes = {
 	profile: PropTypes.object.isRequired,
 };
 
-import {
-	FaCompass,
-	FaBriefcase,
-	FaUsers,
-	FaUserFriends,
-	FaCode,
-	FaUser,
-} from 'react-icons/fa';
-export default class Results extends React.Component {
-	constructor(props) {
-		super(props);
-		this.state = {
-			winner: null,
-			loser: null,
-			error: null,
-			loading: true,
-		};
-	}
+export default class Results extends Component {
+	state = {
+		winner: null,
+		loser: null,
+		error: null,
+		loading: true,
+	};
+
 	componentDidMount() {
 		const { playerOne, playerTwo } = queryString.parse(this.props.location.search);
 
@@ -83,6 +82,7 @@ export default class Results extends React.Component {
 				});
 			});
 	}
+
 	render() {
 		const { winner, loser, error, loading } = this.state;
 
@@ -94,7 +94,7 @@ export default class Results extends React.Component {
 			return <p className="center-text error">{error}</p>;
 		}
 		return (
-			<React.Fragment>
+			<>
 				<div className="grid space-around container-sm">
 					<Card
 						header={winner.score === loser.score ? 'Tie' : 'Winner'}
@@ -119,7 +119,7 @@ export default class Results extends React.Component {
 				<Link to='/battle' className="btn dark-btn btn-space">
 					Reset
         </Link>
-			</React.Fragment>
+			</>
 		);
 	}
 }

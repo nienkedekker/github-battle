@@ -1,9 +1,11 @@
 import React from 'react';
-import { ThemeConsumer } from '../context/theme.js';
 import { NavLink } from 'react-router-dom';
+import { ThemeConsumer } from '../contexts/theme.js';
+
 const activeStyle = {
 	color: 'red'
 };
+
 export default function Nav() {
 	return (
 		<ThemeConsumer>

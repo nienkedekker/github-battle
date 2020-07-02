@@ -1,33 +1,28 @@
-import React from 'react';
+import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
-import Popular from './components/Popular.js';
-import Battle from './components/Battle.js';
-import Results from './components/Results.js';
-import Nav from './components/Nav.js';
-import { ThemeProvider } from './context/theme.js';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+
+import { ThemeProvider } from './contexts/theme.js';
 import './index.css';
 
-const NoRouteMatch = ({ location }) => {
-	return (
-		<div>
-			No match for {location.pathname}
-		</div>
-	);
-};
+import Nav from './components/Nav.js';
+import Error404 from './components/Error404.js';
+import Loading from './components/Loading';
 
-class App extends React.Component {
-	constructor(props) {
-		super(props);
-		this.state = {
-			theme: 'light',
-			toggleTheme: () => {
-				this.setState(({ theme }) => ({
-					theme: theme === 'light' ? 'dark' : 'light',
-				}));
-			},
-		};
-	}
+const Popular = React.lazy(() => import('./components/Popular'));
+const Battle = React.lazy(() => import('./components/Battle'));
+const Results = React.lazy(() => import('./components/Results'));
+
+class App extends Component {
+	state = {
+		theme: 'light',
+		toggleTheme: () => {
+			this.setState(({ theme }) => ({
+				theme: theme === 'light' ? 'dark' : 'light',
+			}));
+		},
+	};
+
 	render() {
 		return (
 			<Router>
@@ -35,12 +30,14 @@ class App extends React.Component {
 					<div className={this.state.theme}>
 						<div className="container">
 							<Nav />
-							<Switch>
-								<Route path="/" exact component={Popular} />
-								<Route path="/battle" exact component={Battle} />
-								<Route path="/battle/results" component={Results} />
-								<Route component={NoRouteMatch} />
-							</Switch>
+							<React.Suspense fallback={<Loading />}>
+								<Switch>
+									<Route path="/" exact component={Popular} />
+									<Route path="/battle" exact component={Battle} />
+									<Route path="/battle/results" component={Results} />
+									<Route component={Error404} />
+								</Switch>
+							</React.Suspense>
 						</div>
 					</div>
 				</ThemeProvider>
